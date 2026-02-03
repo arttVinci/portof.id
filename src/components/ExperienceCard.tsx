@@ -88,60 +88,56 @@ export default function ExperienceCard({ data, index }: Props) {
               )}
             </div>
 
-            {experience.edu ? null : (
-              <motion.button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center gap-1 text-zinc-400 cursor-pointer font-mono text-xs group"
-                whileHover={{ color: "#ffffff" }}
-                transition={{ duration: 0.2 }}
-              >
-                <motion.div
-                  animate={{ rotate: isExpanded ? 180 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
+            {data.responsibilities && data.responsibilities.length > 0 && (
+              <>
+                <motion.button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="flex items-center gap-1 text-zinc-400 cursor-pointer font-mono text-xs group mt-2"
+                  whileHover={{ color: "#ffffff" }}
                 >
-                  <ChevronDown className="w-4 h-4 group-hover:text-cyan-400" />
-                </motion.div>
-                <span className="text-xs md:text-sm group-hover:underline decoration-cyan-400/50 underline-offset-4">
-                  {isExpanded
-                    ? "Hide responsibilities"
-                    : "Show responsibilities"}
-                </span>
-              </motion.button>
-            )}
+                  <motion.div
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className="w-4 h-4 group-hover:text-cyan-400" />
+                  </motion.div>
+                  <span className="text-xs group-hover:underline decoration-cyan-400/50 underline-offset-4">
+                    {isExpanded ? "Hide details" : "Show details"}
+                  </span>
+                </motion.button>
 
-            <AnimatePresence initial={false}>
-              {isExpanded && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-3 pt-3 md:mt-4 md:pt-4 border-t border-zinc-800">
-                    <ul className="space-y-2">
-                      {experience.responsibilities.map((resp, idx) => (
-                        <motion.li
-                          key={idx}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: idx * 0.05,
-                          }}
-                          className="text-xs md:text-sm text-zinc-300 flex gap-2 font-sans leading-relaxed"
-                        >
-                          <span className="text-cyan-500/70 flex shrink-0 mt-0.5">
-                            •
-                          </span>
-                          <span>{resp}</span>
-                        </motion.li>
-                      )) ?? null}
-                    </ul>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-3 pt-3 border-t border-zinc-800/50">
+                        <ul className="space-y-2">
+                          {data.responsibilities.map((resp, idx) => (
+                            <motion.li
+                              key={idx}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.3, delay: idx * 0.05 }}
+                              className="text-xs md:text-sm text-zinc-400 flex gap-2 font-sans leading-relaxed"
+                            >
+                              <span className="text-cyan-500/70 shrink-0">
+                                •
+                              </span>
+                              <span>{resp}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
+            )}
           </div>
         </div>
       </GlowCard>

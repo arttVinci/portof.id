@@ -1,10 +1,18 @@
 import { GraduationCap, Briefcase } from "lucide-react";
 import ExperienceCard from "./ExperienceCard";
+import type { CareerItem } from "../types/ui.types";
 
-export default function CareerCard({ experiences, type }: any) {
+interface Props {
+  data: CareerItem[];
+  type: "work" | "edu";
+}
+
+export default function CareerCard({ data, type }: Props) {
+  if (!data || data.length === 0) return null;
+
   return (
     <section className="mt-7 pb-3">
-      {type === "edu" ? (
+      {type === "edu" && (
         <div className="mb-6 md:mb-8">
           <h3 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
             <GraduationCap className="w-6 h-6 md:w-7 md:h-7 text-cyan-400" />
@@ -14,9 +22,9 @@ export default function CareerCard({ experiences, type }: any) {
             My educational journey.
           </p>
         </div>
-      ) : null}
+      )}
 
-      {type === "work" ? (
+      {type === "work" && (
         <div className="mb-6 md:mb-8">
           <h3 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
             <Briefcase className="w-6 h-6 md:w-7 md:h-7 text-cyan-400" />
@@ -26,11 +34,11 @@ export default function CareerCard({ experiences, type }: any) {
             My professional journey.
           </p>
         </div>
-      ) : null}
+      )}
 
       <div className="space-y-4">
-        {experiences.map((exp, index) => (
-          <ExperienceCard key={exp.id} experience={exp} index={index} />
+        {data.map((exp, index) => (
+          <ExperienceCard key={exp.id} data={exp} index={index} />
         ))}
       </div>
     </section>

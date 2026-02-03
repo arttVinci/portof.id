@@ -1,74 +1,69 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import CareerCard from "../components/CareerCard";
+import type { CareerItem, ProfileItem } from "../types/ui.types";
+import type { PublicPortfolioResponse } from "../types/api.types";
+import {
+  transformProfile,
+  transformExperiences,
+  transformEducations,
+} from "../utils/transformer";
 
-const experiences = [
-  {
-    id: 1,
-    logo: "/images/akebono.jpg",
-    title: "IT Support",
-    company: "PT Akebono Brake Astra Indonesia",
-    location: "Jakarta Utara, Jakarta Raya, Indonesia",
-    period: "Desember 2021 - April 2022",
-    duration: "5 Months",
-    type: "Internship",
-    mode: "Onsite",
-    urlCompany:
-      "https://www.linkedin.com/company/pt-akebono-brake-astra-indonesia/",
-    responsibilities: [
-      "Create an RFID-based field operator attendance project with a mentor.",
-      "Wiring the HMI to be installed in the field where the operators work.",
-      "Registering/signing up kanbans so they can be counted by the system.",
-      "Counting incoming and outgoing data via kanbans.",
-      "Maintaining the work area to ensure occupational safety and health.",
-      "Implementing troubleshooting processes.",
-    ],
-  },
-  {
-    id: 2,
-    logo: "/images/evermos.jpg",
-    title: "Back-end Developer",
-    company: "PT Evermos",
-    location: "Bandung, Jawa Barat, Indonesia",
-    period: "November 2025 - Desember 2025",
-    duration: "2 Months",
-    type: "Project Based Internship",
-    mode: "Remote",
-    urlCompany: "https://www.linkedin.com/company/evermos/posts/?feedView=all",
-    responsibilities: [
-      "High-Performance API: Engineered a robust REST API using Go Fiber and GORM, implementing Clean Architecture to ensure code modularity and testability.",
-      "Containerization: Fully containerized the application, database, and migration services using Docker and Docker Compose, streamlining the deployment process across environments.",
-      "Complex Transactions: Implemented atomic database transactions (ACID compliance) for the checkout process, ensuring inventory accuracy and data integrity by creating historical product snapshots (log_products).",
-      "Security & Auth: Secured API endpoints using JWT (JSON Web Token) authentication and custom Middleware for Role-Based Access Control (Admin vs Customer).",
-      "Database Management: Designed relational database schemas in MySQL and managed version control using Golang-Migrate.",
-      " Features Delivered: User Management, Store Creation, Product Inventory with Image Upload, Address Management, and Transaction History.",
-    ],
-  },
-];
-
-const education = [
-  {
-    id: 1,
-    logo: "/images/universitas_terbuka.jpg",
-    edu: true,
-    title: "Universitas Terbuka",
-    company: "Bachelor's degree - Information Systems, (FST)",
-    location: "Tangerang Selatan, Banten, Indonesia",
-    period: "2024 - 2028",
-    urlCompany:
-      "https://www.linkedin.com/school/universitas-terbuka/posts/?feedView=all",
-    responsibilities: [
-      "Create an RFID-based field operator attendance project with a mentor.",
-      "Wiring the HMI to be installed in the field where the operators work.",
-      "Registering/signing up kanbans so they can be counted by the system.",
-      "Counting incoming and outgoing data via kanbans.",
-      "Maintaining the work area to ensure occupational safety and health.",
-      "Implementing troubleshooting processes.",
-    ],
-  },
-];
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export default function AboutPage() {
+  const { username } = useParams();
+  const navigate = useNavigate();
+
+  const [profile, setProfile] = useState<ProfileItem | null>(null);
+  const [work, setWork] = useState<CareerItem[]>([]);
+  const [edu, setEdu] = useState<CareerItem[]>([]);
+
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/public/${username}`);
+
+        if (response.status === 404) {
+          setError("Profile not found");
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error("Something went wrong");
+        }
+
+        const json: PublicPortfolioResponse = await response.json();
+
+        setProfile(transformProfile(json.profile));
+        setWork(transformExperiences(json.experiences));
+        setEdu(transformEducations(json.educations));
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load portfolio.");
+      }
+    };
+    fetchData();
+  }, [username]);
+
+  if (error) {
+    return (
+      <div className="flex flex-col h-[50vh] items-center justify-center text-center space-y-4">
+        <h2 className="text-3xl font-bold text-red-400 font-mono">404</h2>
+        <p className="text-gray-400">{error}</p>
+        <button
+          onClick={() => navigate("/")}
+          className="px-4 py-2 bg-zinc-800 rounded text-white hover:bg-zinc-700 transition"
+        >
+          Back to Home
+        </button>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -86,7 +81,7 @@ export default function AboutPage() {
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
       </div>
 
-      <div className="space-y-6 text-gray-300 leading-relaxed font-normal text-md">
+      {/* <div className="space-y-6 text-gray-300 leading-relaxed font-normal text-md">
         <p>
           Hello there! Thank you for visiting my personal website.{" "}
           <span className="font-mono text-sky-400">
@@ -147,16 +142,34 @@ export default function AboutPage() {
         </p>
 
         <p className="text-gray-400">Thank You.</p>
+      </div> */}
+      <p className="text-gray-400 mt-1 font-sans text-md">
+        {profile?.about || `Welcome to ${username}'s portfolio.`}
+      </p>
+      <div className="border-b border-zinc-700 mt-3 mb-6"></div>
+
+      <div className="space-y-6 text-gray-300 leading-relaxed font-normal text-md">
+        {profile?.bio ? (
+          profile.bio.split("\n").map((text, i) => (
+            <p key={i} className="mb-4">
+              {text}
+            </p>
+          ))
+        ) : (
+          <p className="italic text-gray-500">
+            This user hasn't written a bio yet.
+          </p>
+        )}
       </div>
 
       <div className="mt-16">
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <CareerCard experiences={experiences} type="work" />
+        <CareerCard data={work} type="work" />
       </div>
 
       <div className="mt-16">
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <CareerCard experiences={education} type="edu" />
+        <CareerCard data={edu} type="edu" />
       </div>
     </motion.div>
   );

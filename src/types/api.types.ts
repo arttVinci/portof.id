@@ -41,7 +41,7 @@ export interface Project {
   tags: string[];
   tech_stack: TechItem[];
   gallery: ProjectGallery[];
-  Features: ProjectFeature[];
+  features: ProjectFeature[];
 }
 
 export interface ProjectFeature {
@@ -60,16 +60,18 @@ export interface TechItem {
   color: string;
 }
 
-export interface Achievements {
+export interface Achievement {
+  id: string;
   title: string;
   image_url: string;
   organization: string;
-  issued_date: Date;
+  issued_date: string;
   credential_url: string;
-  CredentialId: string;
+  credential_id: string;
 }
 
 export interface Profile {
+  id: string;
   full_name: string;
   url_profile: string;
   address: string;
@@ -79,7 +81,7 @@ export interface Profile {
 
 export interface PublicPortfolioResponse {
   profile: Profile;
-  achievements: Achievements[];
+  achievements: Achievement[];
   experiences: Experience[];
   educations: Education[];
   projects: Project[];

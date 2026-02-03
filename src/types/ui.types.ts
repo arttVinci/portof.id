@@ -1,5 +1,3 @@
-// src/types/ui.types.ts
-
 export interface CareerItem {
   id: string;
   logo: string; // Contoh: URL Logo (Sudah dipastikan tidak null)
@@ -19,4 +17,48 @@ export interface CareerItem {
   responsibilities: string[]; // Contoh: List bullet points (Array)
 
   category: "work" | "education"; // Contoh: Penanda buat ganti icon/warna
+}
+
+export interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+
+  repoUrl?: string;
+  demoUrl?: string;
+
+  isFeatured: boolean;
+
+  challenges: string;
+  solution: string;
+
+  tags: string[];
+  skill: {
+    name: string;
+    icon: string;
+    color: string;
+  }[];
+
+  gallery: { url: string; caption: string }[];
+  features: { title: string; items: string[] }[];
+}
+
+export interface AchievementItem {
+  id: string;
+  title: string;
+  organization: string;
+  date: string; // issued_date yang sudah diformat ("Feb 2024")
+  image: string;
+  link: string; // credential_url
+  credentialId: string;
+}
+
+export interface ProfileItem {
+  id: string;
+  name: string;
+  avatar: string;
+  address: string;
+  about: string;
+  bio: string;
 }

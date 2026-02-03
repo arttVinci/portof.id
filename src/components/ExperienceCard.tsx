@@ -2,8 +2,14 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlowCard from "./GlowCard";
+import type { CareerItem } from "../types/ui.types";
 
-export default function ExperienceCard({ experience, index }: any) {
+interface Props {
+  data: CareerItem;
+  index: number;
+}
+
+export default function ExperienceCard({ data, index }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -23,8 +29,8 @@ export default function ExperienceCard({ experience, index }: any) {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <img
-              src={experience.logo}
-              alt="Company Logo"
+              src={data.logo}
+              alt={`${data.organization} Logo`}
               className="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover p-1 cursor-pointer"
             />
           </motion.div>
@@ -34,7 +40,7 @@ export default function ExperienceCard({ experience, index }: any) {
               className="text-base md:text-lg font-semibold text-white mb-1 cursor-pointer font-mono tracking-tight leading-snug"
               transition={{ duration: 0.2 }}
             >
-              {experience.title ?? null}
+              {data.role ?? null}
             </motion.h3>
 
             <motion.p
@@ -42,46 +48,44 @@ export default function ExperienceCard({ experience, index }: any) {
               className="text-sm text-zinc-300 mb-1 font-sans"
             >
               <a
-                href={experience.urlCompany}
+                href={data.organization}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {experience.company ?? null}
+                {data.organization ?? null}
               </a>
             </motion.p>
 
             <p className="text-xs text-zinc-400 mb-2 font-sans">
-              {experience.location ?? null}
+              {data.location ?? null}
             </p>
 
             <div className="flex flex-wrap items-center gap-2 text-[10px] md:text-xs text-zinc-400 mb-3 font-mono">
-              <span>{experience.period}</span>
-              {experience.period && experience.duration ? "•" : null}
+              <span>{data.period}</span>
+              {data.duration && (
+                <>
+                  <span>•</span>
+                  <span>{data.duration}</span>
+                </>
+              )}
 
-              <span>{experience.duration}</span>
-              {experience.duration ? "•" : null}
+              <motion.span
+                className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300"
+                whileHover={{ backgroundColor: "#3f3f46", scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
+                {data.type}
+              </motion.span>
 
-              {experience.type ? (
+              {data.mode && (
                 <motion.span
                   className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300"
                   whileHover={{ backgroundColor: "#3f3f46", scale: 1.05 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {experience.type}
+                  {data.mode}
                 </motion.span>
-              ) : null}
-
-              {experience.type && experience.mode ? "•" : null}
-
-              {experience.mode ? (
-                <motion.span
-                  className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300"
-                  whileHover={{ backgroundColor: "#3f3f46", scale: 1.05 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {experience.mode}
-                </motion.span>
-              ) : null}
+              )}
             </div>
 
             {experience.edu ? null : (

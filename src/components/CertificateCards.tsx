@@ -1,38 +1,50 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { certificatesData } from "../data/CertificatesData";
 import CertificateModal from "./CertificateModal";
 import CertificateCard from "./CertificateCard";
+import type { AchievementItem } from "../types/ui.types";
 
-export default function CertificateCards() {
-  const [selectedCertificate, setSelectedCertificate] = useState(null);
+interface Props {
+  data: AchievementItem[];
+}
+
+export default function CertificateCards({ data }: Props) {
+  const [selectedCert, setSelectedCert] = useState<AchievementItem | null>(
+    null,
+  );
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="text-zinc-500 italic py-10">No achievements found.</div>
+    );
+  }
 
   return (
     <section className="mt-4 pb-3">
       <div className="mb-4">
         <div className="flex items-center justify-between">
           <div className="text-gray-400 font-sans text-md">
-            Total: {certificatesData.length}
+            Total: {data.length}
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {certificatesData.map((cert, index) => (
+        {data.map((cert, index) => (
           <CertificateCard
             key={cert.id}
-            certificate={cert}
+            data={cert}
             index={index}
-            onClick={() => setSelectedCertificate(cert)}
+            onClick={() => setSelectedCert(cert)}
           />
         ))}
       </div>
 
       <AnimatePresence>
-        {selectedCertificate && (
+        {selectedCert && (
           <CertificateModal
-            certificate={selectedCertificate}
-            onClose={() => setSelectedCertificate(null)}
+            data={selectedCert}
+            onClose={() => setSelectedCert(null)}
           />
         )}
       </AnimatePresence>

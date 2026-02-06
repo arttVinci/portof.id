@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlowCard from "./GlowCard";
+import type { AchievementItem } from "../types/ui.types";
 
-export default function CertificateCard({ certificate, index, onClick }) {
+interface Props {
+  data: AchievementItem;
+  index: any;
+  onClick: () => void;
+}
+
+export default function CertificateCard({ data, index, onClick }: Props) {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   return (
@@ -24,8 +31,8 @@ export default function CertificateCard({ certificate, index, onClick }) {
           onMouseLeave={() => setIsImageHovered(false)}
         >
           <motion.img
-            src={certificate.image}
-            alt={certificate.title}
+            src={data.image}
+            alt={data.title}
             className="w-full h-full object-cover"
             animate={{
               scale: isImageHovered ? 1.1 : 1,
@@ -67,20 +74,13 @@ export default function CertificateCard({ certificate, index, onClick }) {
         {/* Content */}
         <GlowCard certi={true}>
           <h3 className="text-base font-semibold text-white mb-2 line-clamp-2 min-h-12">
-            {certificate.title}
+            {data.title}
           </h3>
 
-          <p className="text-sm text-zinc-300 mb-3">
-            {certificate.organization}
-          </p>
+          <p className="text-sm text-zinc-300 mb-3">{data.organization}</p>
 
           <div className="flex flex-col gap-1 mt-auto">
-            <span className="text-xs text-zinc-500">
-              {certificate.issuedLabel}
-            </span>
-            <span className="text-sm text-zinc-300">
-              {certificate.issuedDate}
-            </span>
+            <span className="text-xs text-zinc-500">{data.date}</span>
           </div>
         </GlowCard>
 

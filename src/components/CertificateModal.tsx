@@ -1,8 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import type { AchievementItem } from "../types/ui.types";
 
-export default function CertificateModal({ certificate, onClose }) {
+interface Props {
+  data: AchievementItem;
+  onClose: () => void;
+}
+
+export default function CertificateModal({ data, onClose }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -26,34 +32,28 @@ export default function CertificateModal({ certificate, onClose }) {
           <X className="w-6 h-6 text-white" />
         </button>
 
-        <img
-          src={certificate.image}
-          alt={certificate.title}
-          className="w-full h-auto"
-        />
+        <img src={data.image} alt={data.title} className="w-full h-auto" />
 
         <div className="p-6 space-y-4">
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-white mb-1">
-              {certificate.title}
+              {data.title}
             </h2>
             <p className="font-['Inter'] text-lg text-zinc-300">
-              {certificate.organization}
+              {data.organization}
             </p>
             <p className="text-sm text-zinc-400 mt-1">
-              ID Credentials : #{certificate.IdCredential}
+              ID Credentials : #{data.credentialId}
             </p>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-zinc-400">
             <span>Published</span>
             <span>•</span>
-            <span className="font-medium text-white">
-              {certificate.issuedDate}
-            </span>
-            {certificate.credentialUrl && (
+            <span className="font-medium text-white">{data.date}</span>
+            {data.link && (
               <a
-                href={certificate.credentialUrl}
+                href={data.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2

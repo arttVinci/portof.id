@@ -1,21 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { Menu, Hammer, X } from "lucide-react";
 import { MdVerified } from "react-icons/md";
 
+import { transformProfile } from "../utils/transformer";
+import type { ProfileItem } from "../types/ui.types";
+import type { Profile } from "../types/api.types";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 export default function MainLayout() {
+  const { username } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [activeMenu, setActiveMenu] = useState("Home");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSmartTalkOpen, setIsSmartTalkOpen] = useState(false);
 
+  const [profile, setProfile] = useState<ProfileItem | null>(null);
+
   useEffect(() => {
-    const path = location.pathname.slice(1) || "home";
-    const menuName = path.charAt(0).toUpperCase() + path.slice(1);
+    if (!username) {
+      return;
+    }
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/portfolio/${username}`);
+
+        if (res.status === 404) {
+          navigate("/404");
+          return;
+        }
+        const json: Profile = await res.json();
+
+        setProfile(transformProfile(json));
+      } catch (err) {
+        console.error("Layout fetch error:", err);
+      } finally {
+      }
+    };
+
+    fetchProfile();
+  }, [username, navigate]);
+
+  useEffect(() => {
+    const pathParts = location.pathname.split("/");
+    const lastPart = pathParts[pathParts.length - 1];
+
+    let menuName = "Home";
+    if (lastPart && lastPart !== username) {
+      menuName = lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
+    }
+
     setActiveMenu(menuName);
-  }, [location]);
+  }, [location, username]);
 
   return (
     <div className="min-h-screen bg-blue-card flex justify-center items-start p-0 lg:py-14 lg:px-19">
@@ -32,21 +73,13 @@ export default function MainLayout() {
 
           <div className="flex items-center gap-2">
             <h1 className="text-white font-semibold text-md tracking-wide">
-              Putra Rizky
+              {profile?.fullName}
             </h1>
             <MdVerified className="w-4 h-4 text-blue-400 mt-1" />
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          {/* <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center cursor-pointer hover:bg-emerald-500 transition-colors">
-            <span className="text-white text-xs font-bold">ID</span>
-          </div>
-
-          <button className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors">
-            <Cloud className="w-4 h-4" />
-          </button> */}
-
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="text-white hover:bg-zinc-800 p-1.5 rounded-lg transition-colors"
@@ -59,10 +92,10 @@ export default function MainLayout() {
       <div className="w-full max-w-400 flex overflow-hidden">
         <Sidebar
           activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
           onOpenSmartTalk={() => setIsSmartTalkOpen(true)}
+          profileData={profile}
         />
 
         <motion.main

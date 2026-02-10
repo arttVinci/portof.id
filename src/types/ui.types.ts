@@ -56,7 +56,8 @@ export interface AchievementItem {
 
 export interface ProfileItem {
   id: string;
-  name: string;
+  username: string;
+  fullName: string;
   avatar: string;
   address: string;
   about: string;

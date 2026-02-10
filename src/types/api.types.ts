@@ -72,6 +72,7 @@ export interface Achievement {
 
 export interface Profile {
   id: string;
+  username: string;
   full_name: string;
   url_profile: string;
   address: string;

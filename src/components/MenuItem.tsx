@@ -1,10 +1,22 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import type { ElementType } from "react";
 
-export default function MenuItem({ item, isActive, onClick, index }) {
+interface MenuItemData {
+  label: string;
+  route: string;
+  icon: ElementType;
+}
+
+interface Props {
+  item: MenuItemData;
+  isActive: boolean;
+  onClick: () => void;
+  index: number;
+}
+
+export default function MenuItem({ item, isActive, onClick, index }: Props) {
   const Icon = item.icon;
-
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}

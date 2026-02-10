@@ -1,30 +1,47 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo } from "react";
+import { motion } from "framer-motion";
+import { useNavigate, useParams } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import MenuItem from "./MenuItem";
 import { PiCertificate } from "react-icons/pi";
 import { Home, User, FolderOpen, Send, MessageSquare, X } from "lucide-react";
+import type { ProfileItem } from "../types/ui.types";
 
-const menuItems = [
-  { icon: Home, label: "Home", route: "/" },
-  { icon: User, label: "About", route: "/about" },
-  { icon: PiCertificate, label: "Achievements", route: "/achievements" },
-  { icon: FolderOpen, label: "Projects", route: "/projects" },
-  { icon: Send, label: "Contact", route: "/contact" },
-];
+interface Props {
+  activeMenu: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onOpenSmartTalk: () => void;
+  profileData: ProfileItem | null;
+}
 
 export default function Sidebar({
   activeMenu,
-  setActiveMenu,
   isOpen,
   onClose,
   onOpenSmartTalk,
-}) {
+  profileData,
+}: Props) {
   const navigate = useNavigate();
 
-  const handleMenuClick = (item) => {
-    setActiveMenu(item.label);
+  const { username } = useParams();
+
+  const menuItems = useMemo(() => {
+    const userPrefix = username ? `/${username}` : "";
+    return [
+      { icon: Home, label: "Home", route: `${userPrefix}/` },
+      { icon: User, label: "About", route: `${userPrefix}/about` },
+      {
+        icon: PiCertificate,
+        label: "Achievements",
+        route: `${userPrefix}/achievements`,
+      },
+      { icon: FolderOpen, label: "Projects", route: `${userPrefix}/projects` },
+      { icon: Send, label: "Contact", route: `${userPrefix}/contact` },
+    ];
+  }, [username]);
+
+  const handleMenuClick = (item: any) => {
     navigate(item.route);
 
     if (window.innerWidth < 1024) {
@@ -61,7 +78,7 @@ export default function Sidebar({
         </button>
 
         <div className="pt-6 lg:pt-0">
-          <ProfileHeader />
+          <ProfileHeader data={profileData} />
         </div>
 
         <div className="flex-1 py-4 space-y-1">
@@ -90,7 +107,7 @@ export default function Sidebar({
 
           <div className="px-5 pb-6 pt-2 mt-8 text-center border-t border-zinc-700">
             <p className="text-gray-500 text-xs">
-              © 2025 Traa Rzkyy. All rights reserved.
+              © 2026 {profileData?.fullName || "Portfolio"}.
             </p>
           </div>
         </div>

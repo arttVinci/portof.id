@@ -108,7 +108,7 @@ export const transformProjects = (data: Project[]): ProjectItem[] => {
       })) || [],
 
     gallery: item.gallery || [],
-    features: item.features || [], // Pastikan di Go json:"features"
+    features: item.features || [],
   }));
 };
 
@@ -136,7 +136,8 @@ export const transformProfile = (data: Profile): ProfileItem => {
 
   return {
     id: data.id || Math.random().toString(),
-    name: data.full_name,
+    username: data.username,
+    fullName: data.full_name,
     avatar: data.url_profile,
     address: data.address,
     about: data.about,

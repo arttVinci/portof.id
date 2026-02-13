@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 
-export default function ImageGallery({ images }) {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+export interface GalleryImage {
+  id: string | number;
+  url: string;
+  caption: string;
+}
 
-  const openLightbox = (index) => {
+export interface ImageGalleryProps {
+  images: GalleryImage[];
+}
+
+export default function ImageGallery({ images }: ImageGalleryProps) {
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  const openLightbox = (index: number) => {
     setCurrentIndex(index);
     setSelectedImage(images[index]);
   };

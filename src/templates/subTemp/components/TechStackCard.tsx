@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function TechStackCard({ tech, index }) {
@@ -10,7 +10,7 @@ export default function TechStackCard({ tech, index }) {
     const card = cardRef.current;
     if (!card) return;
 
-    const handleMove = (e) => {
+    const handleMove = (e: MouseEvent) => {
       const rect = card.getBoundingClientRect();
       setMousePos({
         x: e.clientX - rect.left,

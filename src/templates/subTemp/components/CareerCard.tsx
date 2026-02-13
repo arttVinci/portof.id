@@ -2,12 +2,12 @@ import { GraduationCap, Briefcase } from "lucide-react";
 import ExperienceCard from "./ExperienceCard";
 import type { CareerItem } from "../../../types/ui.types";
 
-interface Props {
+interface CareerCardProps {
   data: CareerItem[];
   type: "work" | "edu";
 }
 
-export default function CareerCard({ data, type }: Props) {
+export default function CareerCard({ data, type }: CareerCardProps) {
   if (!data || data.length === 0) return null;
 
   return (

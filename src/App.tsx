@@ -7,7 +7,7 @@ import AchievementsPage from "./pages/AchievementsPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import DetailProjectPage from "./pages/DetailProjectPage";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTop from "./components/ui/ScrollToTop";
 import "./App.css";
 
 export default function App() {

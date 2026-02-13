@@ -50,6 +50,7 @@ export interface ProjectFeature {
 }
 
 export interface ProjectGallery {
+  id: string;
   url: string;
   caption: string;
 }

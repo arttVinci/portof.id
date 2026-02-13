@@ -4,8 +4,14 @@ import { Pin } from "lucide-react";
 import GlowCard from "./GlowCard";
 import ProjectTechStack from "./ProjectTechStack";
 import { useNavigate } from "react-router-dom";
+import type { ProjectItem } from "../../../types/ui.types";
 
-export default function ProjectCard({ project, index }) {
+export interface ProjectCardProps {
+  project: ProjectItem;
+  index: number;
+}
+
+export default function ProjectCard({ project, index }: ProjectCardProps) {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   const navigate = useNavigate();
@@ -27,7 +33,7 @@ export default function ProjectCard({ project, index }) {
       onClick={handleViewDetail}
     >
       <div className="relative border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 transition-all duration-300 h-full flex flex-col">
-        {project.featured && (
+        {project.features && (
           <div className="absolute top-3 right-3 z-10">
             <div className="bg-cyan-400 text-black px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
               <Pin className="w-4 h-4" />
@@ -92,8 +98,8 @@ export default function ProjectCard({ project, index }) {
           </p>
 
           <div className="flex flex-wrap mt-auto">
-            {project.techStack.map((tech, index) => (
-              <ProjectTechStack key={tech.name} tech={tech} index={index} />
+            {project.skill.map((skill, index) => (
+              <ProjectTechStack key={skill.name} skill={skill} index={index} />
             ))}
           </div>
         </GlowCard>

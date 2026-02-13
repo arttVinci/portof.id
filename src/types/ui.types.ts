@@ -40,7 +40,7 @@ export interface ProjectItem {
     color: string;
   }[];
 
-  gallery: { url: string; caption: string }[];
+  gallery: { id: string; url: string; caption: string }[];
   features: { title: string; items: string[] }[];
 }
 

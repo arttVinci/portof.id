@@ -1,13 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+
+export interface GlowCardProps {
+  children: React.ReactNode;
+  classname?: string;
+  delay?: number;
+  certi?: boolean;
+}
 
 export default function GlowCard({
   children,
-  className = "",
+  classname,
   delay = 0,
   certi = false,
-}) {
-  const ref = useRef(null);
+}: GlowCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
 
@@ -15,7 +22,7 @@ export default function GlowCard({
     const el = ref.current;
     if (!el) return;
 
-    const move = (e) => {
+    const move = (e: MouseEvent) => {
       const r = el.getBoundingClientRect();
       setPos({
         x: e.clientX - r.left,
@@ -23,11 +30,18 @@ export default function GlowCard({
       });
     };
 
-    el.addEventListener("mousemove", move);
-    el.addEventListener("mouseenter", () => setHovered(true));
-    el.addEventListener("mouseleave", () => setHovered(false));
+    const handleMouseEnter = () => setHovered(true);
+    const handleMouseLeave = () => setHovered(false);
 
-    return () => el.removeEventListener("mousemove", move);
+    el.addEventListener("mousemove", move);
+    el.addEventListener("mouseenter", handleMouseEnter);
+    el.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      el.removeEventListener("mousemove", move);
+      el.removeEventListener("mouseenter", handleMouseEnter);
+      el.removeEventListener("mouseleave", handleMouseLeave);
+    };
   }, []);
 
   return certi ? (
@@ -41,7 +55,7 @@ export default function GlowCard({
       border border-white/10
       hover:border-cyan-400/40
       hover:shadow-[0_0_45px_rgba(34,211,238,0.15)]
-      transition-all ${className}`}
+      transition-all ${classname}`}
     >
       <div
         className="pointer-events-none absolute transition-opacity duration-300"
@@ -73,7 +87,7 @@ export default function GlowCard({
       border border-white/10
       hover:border-cyan-400/40
       hover:shadow-[0_0_45px_rgba(34,211,238,0.15)]
-      transition-all ${className}`}
+      transition-all ${classname}`}
     >
       <div
         className="pointer-events-none absolute transition-opacity duration-300"

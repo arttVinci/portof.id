@@ -5,6 +5,7 @@ import type {
   ProfileItem,
   ProjectItem,
   AchievementItem,
+  SkillItem,
 } from "../../types/ui.types";
 import {
   transformProfile,
@@ -12,6 +13,7 @@ import {
   transformEducations,
   transformAchievements,
   transformProjects,
+  transformSkill,
 } from "../../utils/transformer";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
@@ -20,6 +22,7 @@ export const usePortfolio = () => {
   const { username } = useParams();
 
   const [profile, setProfile] = useState<ProfileItem | null>(null);
+  const [skills, setSkills] = useState<SkillItem[]>([]);
   const [experiences, setExperiences] = useState<CareerItem[]>([]);
   const [educations, setEducations] = useState<CareerItem[]>([]);
   const [projects, setProjects] = useState<ProjectItem[]>([]);
@@ -29,6 +32,7 @@ export const usePortfolio = () => {
 
   useEffect(() => {
     setProfile(null);
+    setSkills([]);
     setExperiences([]);
     setEducations([]);
     setProjects([]);
@@ -41,12 +45,14 @@ export const usePortfolio = () => {
       try {
         const [
           resProfile,
+          resSkills,
           resExperience,
           resEducation,
           resProject,
           resAchievement,
         ] = await Promise.all([
           fetch(`${API_BASE_URL}/api/public/${username}`),
+          fetch(`${API_BASE_URL}/api/public/${username}/skills`),
           fetch(`${API_BASE_URL}/api/public/${username}/experiences`),
           fetch(`${API_BASE_URL}/api/public/${username}/educations`),
           fetch(`${API_BASE_URL}/api/public/${username}/projects`),
@@ -59,6 +65,7 @@ export const usePortfolio = () => {
 
         const [
           jsonProfile,
+          jsonSkills,
           jsonExperiences,
           jsonEducations,
           jsonProjects,
@@ -66,12 +73,14 @@ export const usePortfolio = () => {
         ] = await Promise.all([
           resProfile.json(),
           resExperience.ok ? resExperience.json() : [],
+          resSkills.ok ? resSkills.json() : [],
           resEducation.ok ? resEducation.json() : [],
           resProject.ok ? resProject.json() : [],
           resAchievement.ok ? resAchievement.json() : [],
         ]);
 
         setProfile(transformProfile(jsonProfile));
+        setSkills(transformSkill(jsonSkills));
         setExperiences(transformExperiences(jsonExperiences));
         setEducations(transformEducations(jsonEducations));
         setAchievements(transformAchievements(jsonAchievements));
@@ -87,6 +96,7 @@ export const usePortfolio = () => {
   return {
     username,
     profile,
+    skills,
     experiences,
     educations,
     projects,

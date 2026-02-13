@@ -63,3 +63,9 @@ export interface ProfileItem {
   about: string;
   bio: string;
 }
+
+export interface SkillItem {
+  name: string;
+  icon: string;
+  color: string;
+}

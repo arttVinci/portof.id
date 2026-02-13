@@ -1,7 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import type { SkillItem } from "../../../types/ui.types";
 
-export default function TechStackCard({ tech, index }) {
+export interface TechStackCardProps {
+  skill: SkillItem[];
+  index: number;
+}
+
+export default function TechStackCard({ skill, index }) {
   const cardRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);

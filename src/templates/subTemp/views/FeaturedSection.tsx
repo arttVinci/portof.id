@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { LayoutGrid, Award, Wrench } from "lucide-react";
-import GlowCard from "./GlowCard";
+import GlowCard from "../components/GlowCard";
 
 export default function FeaturedSection() {
   return (

@@ -5,7 +5,7 @@ import ProfileHeader from "./ProfileHeader";
 import MenuItem from "./MenuItem";
 import { PiCertificate } from "react-icons/pi";
 import { Home, User, FolderOpen, Send, MessageSquare, X } from "lucide-react";
-import type { ProfileItem } from "../types/ui.types";
+import type { ProfileItem } from "../../../types/ui.types";
 
 interface Props {
   activeMenu: string;

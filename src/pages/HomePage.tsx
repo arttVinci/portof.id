@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, CodeXml } from "lucide-react";
-import TechStackCard from "../components/TechStackCard";
-import FeaturedSection from "../components/FeaturedSection";
+import TechStackCard from "../templates/subTemp/components/TechStackCard";
+import FeaturedSection from "../templates/subTemp/views/FeaturedSection";
 import {
   SiBootstrap,
   SiComposer,

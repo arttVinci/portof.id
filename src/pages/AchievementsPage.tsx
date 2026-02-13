@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import CertificateCards from "../components/CertificateCards";
+import CertificateCards from "../templates/subTemp/components/CertificateCards";
 import { Award } from "lucide-react";
 import type { AchievementItem } from "../types/ui.types";
 import type { Achievement } from "../types/api.types";

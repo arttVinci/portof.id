@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import CertificateModal from "./CertificateModal";
 import CertificateCard from "./CertificateCard";
-import type { AchievementItem } from "../types/ui.types";
+import type { AchievementItem } from "../../../types/ui.types";
 
 interface Props {
   data: AchievementItem[];

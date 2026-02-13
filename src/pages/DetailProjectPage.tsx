@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MoveLeft, ExternalLink, FolderOpen } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { projectsData } from "../data/ProjectsData";
-import ProjectTechStack from "../components/ProjectTechStack";
+import ProjectTechStack from "../templates/subTemp/components/ProjectTechStack";
 import { SiGithub } from "@icons-pack/react-simple-icons";
-import GlowCard from "../components/GlowCard";
-import ImageGallery from "../components/ImageGallery";
+import GlowCard from "../templates/subTemp/components/GlowCard";
+import ImageGallery from "../templates/subTemp/components/ImageGallery";
 
 export default function DetailProjectPage() {
   const { id } = useParams();

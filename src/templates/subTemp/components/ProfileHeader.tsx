@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { MdVerified } from "react-icons/md";
-import type { ProfileItem } from "../types/ui.types";
+import type { ProfileItem } from "../../../types/ui.types";
 
 interface Props {
   data: ProfileItem | null;

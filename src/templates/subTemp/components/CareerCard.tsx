@@ -1,6 +1,6 @@
 import { GraduationCap, Briefcase } from "lucide-react";
 import ExperienceCard from "./ExperienceCard";
-import type { CareerItem } from "../types/ui.types";
+import type { CareerItem } from "../../../types/ui.types";
 
 interface Props {
   data: CareerItem[];

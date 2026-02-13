@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlowCard from "./GlowCard";
-import type { AchievementItem } from "../types/ui.types";
+import type { AchievementItem } from "../../../types/ui.types";
 
 interface Props {
   data: AchievementItem;

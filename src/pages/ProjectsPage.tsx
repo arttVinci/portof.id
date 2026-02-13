@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import ProjectCards from "../components/ProjectCards";
+import ProjectCards from "../templates/subTemp/components/ProjectCards";
 import { FolderOpen } from "lucide-react";
 
 export default function ProjectsPage() {

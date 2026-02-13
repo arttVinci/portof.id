@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import CareerCard from "../components/CareerCard";
+import CareerCard from "../templates/subTemp/components/CareerCard";
 import type { CareerItem, ProfileItem } from "../types/ui.types";
 import type { PublicPortfolioResponse } from "../types/api.types";
 import {

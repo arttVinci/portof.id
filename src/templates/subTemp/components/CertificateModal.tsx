@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import type { AchievementItem } from "../types/ui.types";
+import type { AchievementItem } from "../../../types/ui.types";
 
 interface Props {
   data: AchievementItem;

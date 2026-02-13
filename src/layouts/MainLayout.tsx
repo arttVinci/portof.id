@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Outlet, useLocation, useParams, useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../templates/subTemp/components/Sidebar";
 import { Menu, Hammer, X } from "lucide-react";
 import { MdVerified } from "react-icons/md";
 

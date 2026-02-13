@@ -79,11 +79,3 @@ export interface Profile {
   about: string;
   bio?: string;
 }
-
-export interface PublicPortfolioResponse {
-  profile: Profile;
-  achievements: Achievement[];
-  experiences: Experience[];
-  educations: Education[];
-  projects: Project[];
-}
